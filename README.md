@@ -1,18 +1,15 @@
-# 仿[cnodejs.org](cnodejs.org)论坛官网
-
 ### 项目描述
 
-本项目为仿 cnodejs.org 官网，使用 node.js、express、mongoDB，实现了注册、登录、发布主题、修改资料等功能。
+本项目为多人互动论坛网站，使用 node.js、express、mongoDB，实现了注册、登录、发布主题、修改资料等功能。
 
 ### 启动方法
 
-1. 安装依赖包`$ npm install`
-2. 开启数据库
+1. 开启数据库
    - `$ mongod`
    - `$ mongo`
-3. 使用 nodemon 或 node,启动 app.js
+2. 使用 nodemon 或 node,启动 app.js
    - `$ nodemon app.js` / `node app.js`
-4. 在浏览器输入 `localhost:3000` 即可访问项目
+3. 在浏览器输入 `localhost:5000` 即可访问项目
 
 ### 技术栈
 

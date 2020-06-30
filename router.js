@@ -39,7 +39,7 @@ router.get('/register', (req, res) => {
     res.render('register.html');
 })
 
-router.post('/register', (req, res) => {
+router.post('/register', (req, res, next) => {
     let body = req.body;
     User.findOne({
         $or: [{
@@ -51,9 +51,10 @@ router.post('/register', (req, res) => {
         ]
     }, (err, data) => {
         if (err) {
-            return res.status(500).json({
-                err_code: 500
-            })
+            // return res.status(500).json({
+            //     err_code: 500
+            // })
+            return next(err)
         }
         if (data) {
             return res.status(200).json({
@@ -63,9 +64,10 @@ router.post('/register', (req, res) => {
         body.password = md5(md5(body.password));
         new User(body).save((err, data) => {
             if (err) {
-                return res.status(500).json({
-                    err_code: 500,
-                })
+                // return res.status(500).json({
+                //     err_code: 500,
+                // })
+                return next(err)
             }
             req.session.user = data;
             return res.status(200).json({
@@ -79,7 +81,7 @@ router.get('/login', (req, res) => {
     res.render('login.html');
 })
 
-router.post('/login', (req, res) => {
+router.post('/login', (req, res, next) => {
     let body = req.body;
     // 对密码进行md5二次加密
     body.password = md5(md5(body.password));
@@ -88,9 +90,10 @@ router.post('/login', (req, res) => {
         password: body.password
     }, (err, data) => {
         if (err) {
-            return res.status(500).json({
-                err_code: 500,
-            })
+            // return res.status(500).json({
+            //     err_code: 500,
+            // })
+            return next(err)
         }
         if (!data) {
             return res.status(200).json({
@@ -132,14 +135,15 @@ router.get('/settings/profile', function(req, res) {
     res.render('settings/profile.html', { user: req.session.user });
 })
 
-router.post('/settings/profile', function(req, res) {
+router.post('/settings/profile', function(req, res, next) {
     var body = req.body;
     body.birthday = body.birthday + '';
     User.findByIdAndUpdate(req.session.user._id, body, function(err, data) {
         if (err) {
-            return res.json({
-                err_code: 500
-            })
+            // return res.json({
+            //     err_code: 500
+            // })
+            return next(err)
         }
         req.session.user = data;
         console.log(req.session.user);
